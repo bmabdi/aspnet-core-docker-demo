@@ -32,10 +32,10 @@ stages:
         overrideParameters: '-registryName "$(acrName)" -registryLocation "$(location)" -registrySku standard'
 
     - task: UseDotNet@2
-      displayName: 'Use .NET Core sdk'
+      displayName: 'Use .NET Core sdk 5.0'
       inputs:
         packageType: sdk
-        version: 2.2.x
+        version: 5.0.x
         installationPath: $(Agent.ToolsDirectory)/dotnet        
   
     # Restore dependencies
@@ -105,7 +105,7 @@ stages:
   jobs:
   - job: Release
     pool:
-      vmImage: 'Ubuntu-16.04'
+      vmImage: 'Ubuntu-18.04'
     steps:
     # Don't clone the repo
     - checkout: none

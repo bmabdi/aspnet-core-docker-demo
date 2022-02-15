@@ -10,7 +10,7 @@ namespace SampleWebApplication.FunctionalTests
     public class SampleFunctionalTests
     {
         private static TestContext testContext;
-        private RemoteWebDriver driver;
+        private ChromeDriver driver;
 
         [ClassInitialize]
         public static void Initialize(TestContext testContext)
@@ -60,7 +60,7 @@ namespace SampleWebApplication.FunctionalTests
             }
         }
 
-        private RemoteWebDriver GetChromeDriver()
+        private ChromeDriver GetChromeDriver()
         {
             var path = Environment.GetEnvironmentVariable("ChromeWebDriver");
             var options = new ChromeOptions();
@@ -69,10 +69,12 @@ namespace SampleWebApplication.FunctionalTests
             if (!string.IsNullOrWhiteSpace(path))
             {
                 return new ChromeDriver(path, options, TimeSpan.FromSeconds(300));
+               //return null;
             }
             else
             {
                 return new ChromeDriver(options);
+                //return null;
             }
         }
     }

@@ -32,10 +32,10 @@ stages:
         overrideParameters: '-registryName "$(acrName)" -registryLocation "$(location)" -registrySku standard'
 
     - task: UseDotNet@2
-      displayName: 'Use .NET Core sdk 5.0'
+      displayName: 'Use .NET Core sdk'
       inputs:
         packageType: sdk
-        version: 5.0.x
+        version: 2.2.x
         installationPath: $(Agent.ToolsDirectory)/dotnet        
   
     # Restore dependencies

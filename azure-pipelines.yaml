@@ -31,15 +31,6 @@ stages:
         csmFile: '$(System.DefaultWorkingDirectory)/**/containerRegistry-template.json'
         overrideParameters: '-registryName "$(acrName)" -registryLocation "$(location)" -registrySku standard'
 
-    - task: Docker@1
-      inputs:
-          subscriptionEndpoint: 'AzureSC'
-          containerRegistry: '$(acrHostName)'                       
-          repository: 'Azure Container Registry'
-          command: 'build'
-          dockerfile: '**/Dockerfile'
-      displayName: ‘Docker image build’
-
     - task: UseDotNet@2
       displayName: 'Use .NET Core sdk'
       inputs:
@@ -89,6 +80,15 @@ stages:
         useDefaultContext: false
         buildContext: '$(System.DefaultWorkingDirectory)/PublishedWebApp'
 
+    # Build container image 2
+    - task: Docker@1
+      displayName: 'Build container image'
+      inputs:
+        azureSubscriptionEndpoint: 'AzureSC'
+        azureContainerRegistry: '$(acrHostName)'        
+        dockerFile: '**Dockerfile'
+         
+
     # Push container image
     - task: Docker@1
       displayName: 'Push container image'
@@ -96,9 +96,15 @@ stages:
         azureSubscriptionEndpoint: 'AzureSC'
         azureContainerRegistry: '$(acrHostName)'
         command: 'Push an image'
-        imageName: '$(imageName):$(Build.BuildId)'
+        imageName: '$(imageName):$(Build.BuildId)'    
 
-    
+    - task: Docker@1
+      displayName: 'Push container image'
+      inputs:
+        azureSubscriptionEndpoint: 'AzureSC'
+        azureContainerRegistry: '$(acrHostName)'
+        command: 'Push an image'
+        imageName: '$(imageName):$(Build.BuildId)' 
 
     # Copy ARM templates
     - task: CopyFiles@2
